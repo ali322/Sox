@@ -2,7 +2,7 @@ use pinger::{ping, PingResult};
 use crate::sysproxy::Sysproxy;
 use std::{fs, path::Path};
 use tauri::{
-    api::process::{Command, CommandEvent},
+    api::process::{self, Command, CommandEvent},
     Builder, Wry,
 };
 
@@ -71,6 +71,11 @@ fn run_sidecar(window: tauri::Window, app_handle: tauri::AppHandle, config: Stri
 }
 
 #[tauri::command]
+fn stop_sidecar() {
+  process::kill_children();
+}
+
+#[tauri::command]
 fn toggle_sysproxy(is_enabled: bool, port: u16) {
   // println!("is actived {} {}", is_enabled, port);
   let sysproxy = Sysproxy{
@@ -99,5 +104,5 @@ fn export_file(path: String, content: String) -> Result<(), String>{
 }
 
 pub fn apply_command(builder: Builder<Wry>) -> Builder<Wry> {
-    builder.invoke_handler(tauri::generate_handler![run_sidecar, latency, latencies, import_file, export_file, toggle_sysproxy])
+    builder.invoke_handler(tauri::generate_handler![run_sidecar, stop_sidecar, latency, latencies, import_file, export_file, toggle_sysproxy])
 }

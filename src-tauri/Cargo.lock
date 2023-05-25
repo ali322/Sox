@@ -2668,6 +2668,7 @@ dependencies = [
  "tauri",
  "tauri-build",
  "thiserror",
+ "winapi",
 ]
 
 [[package]]

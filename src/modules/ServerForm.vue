@@ -4,7 +4,7 @@
       <div class="flex-1 text-left flex">
         <label class="mr-6 text-gray-500 w-20">Tag</label>
         <input type="text" spellcheck="false" :disabled="running" v-model="tag"
-          class="leading-7 rounded border border-gray-300 text-sm px-2 w-24 disabled:text-gray-500" />
+          class="leading-7 rounded border border-gray-300 text-sm px-2 w-28 disabled:text-gray-500" />
       </div>
       <button class="w-24 h-[30px] flex items-center btn-secondary mr-4" @click="upload">
         <UploadRound class="w-5 h-5"></UploadRound>
@@ -19,7 +19,7 @@
     <div class="px-4">
       <div class="flex items-center py-2 text-left">
         <label class="mr-6 text-gray-500 w-20 text-sm">Type</label>
-        <Select class="rounded w-24" v-model:value="server.type">
+        <Select class="rounded w-28" v-model:value="server.type">
           <Option value="vless">vless</Option>
           <Option value="trojan">trojan</Option>
           <Option value="hysteria">hysteria</Option>
