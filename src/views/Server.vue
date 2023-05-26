@@ -57,6 +57,7 @@ event.listen('sidecar-running', (evt: { payload: string }) => {
 const startOne = async () => {
   const server = servers.value[selected.value]
   let resDir = await resourceDir()
+  console.log('server', server.data)
   const config = mergeSettings(server.data, { mixedPort: mixedPort.value }, resDir)
   tauri.invoke('run_sidecar', { config: JSON.stringify(config, null, 2) })
   running.value = true

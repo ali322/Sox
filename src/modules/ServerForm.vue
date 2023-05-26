@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="px-4 py-2 flex-1 flex overflow-y-scroll text-left">
-      <json-editor class="flex-1" v-model:json="server.data" :readOnly="running"/>
+      <json-editor class="flex-1" mode="text" v-model:json="server.data" @change="changeData" :readOnly="running"/>
     </div>
     <Toast ref="toastRef" />
   </div>
@@ -62,6 +62,13 @@ const toastRef = ref<InstanceType<typeof Toast>>()
 const serverStore = useServerStore()
 const { running } = storeToRefs(serverStore)
 
+const changeData = (content: Record<string, any>) => {
+  if(content.text) {
+    server.value.data = JSON.parse(content.text)
+  } else if (content.json) {
+    server.value.data = Object.assign({}, content.json)
+  }
+}
 const run = () => {
   emit('run')
 }
