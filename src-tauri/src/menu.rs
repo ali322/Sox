@@ -2,7 +2,7 @@ use tauri::{Builder, Menu, MenuItem, Submenu, Wry, AboutMetadata};
 
 pub fn apply_menu(builder: Builder<Wry>) -> Builder<Wry> {
   let app_menu = Menu::new()
-    .add_native_item(MenuItem::About("Nave".to_string(), AboutMetadata::default()))
+    .add_native_item(MenuItem::About("Sox".to_string(), AboutMetadata::default()))
     .add_native_item(MenuItem::Services)
     .add_native_item(MenuItem::Hide)
     .add_native_item(MenuItem::Quit);
