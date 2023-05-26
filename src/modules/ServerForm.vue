@@ -1,5 +1,5 @@
 <template>
-  <div class="py-2 flex-1">
+  <div class="py-2 flex-1 flex flex-col">
     <div class="flex px-4 pb-2 pt-2 justify-end items-center">
       <div class="flex-1 text-left flex">
         <label class="mr-6 text-gray-500 w-20">Tag</label>
@@ -28,10 +28,8 @@
         </Select>
       </div>
     </div>
-    <div class="px-4 py-2">
-      <div class="h-[28rem] overflow-scroll">
-        <vue-json-pretty :data="server.data" />
-      </div>
+    <div class="px-4 py-2 flex-1 flex overflow-y-scroll text-left">
+      <json-editor class="flex-1" v-model:json="server.data" :readOnly="running"/>
     </div>
     <Toast ref="toastRef" />
   </div>
@@ -40,7 +38,7 @@
 import useServerStore from '@/store/server'
 import { storeToRefs } from 'pinia'
 import { toRefs, ref, computed } from 'vue'
-import VueJsonPretty from 'vue-json-pretty'
+import JsonEditor from 'vue3-ts-jsoneditor'
 import { debounce } from 'ts-debounce'
 import { path, dialog, tauri, fs } from '@tauri-apps/api'
 import { PlayArrowRound, StopRound, UploadRound } from '@vicons/material'
