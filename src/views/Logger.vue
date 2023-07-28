@@ -33,11 +33,16 @@ onMounted(() => {
     term.writeln(line)
   })
   watch(() => store.output, (curr: string[]) => {
-    console.log('curr', curr)
-    curr.slice(lines.length).forEach((line) => {
-      lines.push(line)
-      term.writeln(line)
-    })
+    console.log('curr', curr, lines.length)
+    if (curr.length === 0 ) {
+      term.clear()
+      lines = []
+    } else { 
+      curr.slice(lines.length).forEach((line) => {
+        lines.push(line)
+        term.writeln(line)
+      })
+    }
   })
 })
 </script>
