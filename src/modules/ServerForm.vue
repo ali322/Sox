@@ -54,6 +54,7 @@
 </template>
 <script lang="ts" setup>
 import useServerStore from "@/store/server";
+import { UploadRound, StopRound, PlayArrowRound } from '@vicons/material'
 import { storeToRefs } from "pinia";
 import { toRefs, ref, computed } from "vue";
 import JsonEditor from "vue3-ts-jsoneditor";
