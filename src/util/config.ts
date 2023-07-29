@@ -3,7 +3,7 @@ export const mergeSettings = (
   settings: Record<string, any>,
   resDir: string
 ) => {
-  let route = Object.assign({}, settings.route, {
+  let route = Object.assign({}, server.route, {
     geoip: {
       path: `${resDir}etc/geoip.db`
     },
