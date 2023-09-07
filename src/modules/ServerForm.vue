@@ -25,7 +25,7 @@
       >
         <StopRound class="w-6 h-6" v-if="running"></StopRound>
         <PlayArrowRound class="w-5 h-5" v-else></PlayArrowRound>
-        <span class="mx-1 leading-7">{{ running ? "stop" : "run" }}</span>
+        <span class="mx-1 leading-7">{{ running ? 'stop' : 'run' }}</span>
       </button>
     </div>
     <div class="px-4">
@@ -35,6 +35,8 @@
           <Option value="vless">vless</Option>
           <Option value="trojan">trojan</Option>
           <Option value="hysteria">hysteria</Option>
+          <Option value="hysteria2">hysteria2</Option>
+          <Option value="tuic">tuic</Option>
           <Option value="shadowtls">shadowtls</Option>
           <Option value="vmess">vmess</Option>
         </Select>
@@ -53,96 +55,96 @@
   </div>
 </template>
 <script lang="ts" setup>
-import useServerStore from "@/store/server";
+import useServerStore from '@/store/server'
 import { UploadRound, StopRound, PlayArrowRound } from '@vicons/material'
-import { storeToRefs } from "pinia";
-import { toRefs, ref, computed } from "vue";
-import JsonEditor from "vue3-ts-jsoneditor";
-import { debounce } from "ts-debounce";
-import { path, dialog, tauri, fs } from "@tauri-apps/api";
-import Toast from "@/components/Toast.vue";
-import Select from "@/components/Select.vue";
-import Option from "@/components/Option.vue";
+import { storeToRefs } from 'pinia'
+import { toRefs, ref, computed } from 'vue'
+import JsonEditor from 'vue3-ts-jsoneditor'
+import { debounce } from 'ts-debounce'
+import { path, dialog, tauri, fs } from '@tauri-apps/api'
+import Toast from '@/components/Toast.vue'
+import Select from '@/components/Select.vue'
+import Option from '@/components/Option.vue'
 
 interface Props {
-  server: Record<string, any>;
-  index: number;
+  server: Record<string, any>
+  index: number
 }
 interface Emits {
-  (e: "run"): void;
+  (e: 'run'): void
 }
-const emit = defineEmits<Emits>();
+const emit = defineEmits<Emits>()
 
-const props = defineProps<Props>();
-const { server, index } = toRefs(props);
+const props = defineProps<Props>()
+const { server, index } = toRefs(props)
 
-const toastRef = ref<InstanceType<typeof Toast>>();
-const serverStore = useServerStore();
-const { running } = storeToRefs(serverStore);
+const toastRef = ref<InstanceType<typeof Toast>>()
+const serverStore = useServerStore()
+const { running } = storeToRefs(serverStore)
 
 const changeData = (content: Record<string, any>) => {
   if (content.text) {
-    server.value.data = JSON.parse(content.text);
+    server.value.data = JSON.parse(content.text)
   } else if (content.json) {
-    server.value.data = Object.assign({}, content.json);
+    server.value.data = Object.assign({}, content.json)
   }
-};
+}
 const run = () => {
-  emit("run");
-};
+  emit('run')
+}
 const upload = async () => {
-  const t = toastRef.value as any;
+  const t = toastRef.value as any
   try {
-    const homeDir = await path.homeDir();
+    const homeDir = await path.homeDir()
     const importFile = await dialog.open({
       defaultPath: await path.join(homeDir),
-    });
+    })
     if (importFile) {
-      const content = await tauri.invoke("import_file", { path: importFile });
-      const data = JSON.parse(content as string);
-      server.value.data = data;
-      t.show("import server success");
+      const content = await tauri.invoke('import_file', { path: importFile })
+      const data = JSON.parse(content as string)
+      server.value.data = data
+      t.show('import server success')
     }
   } catch (e) {
-    t.error(e);
+    t.error(e)
   }
-};
+}
 
 const tag = computed({
   get() {
-    return server.value.tag;
+    return server.value.tag
   },
   set(val) {
-    server.value.tag = val;
-    onServerUpdate();
+    server.value.tag = val
+    onServerUpdate()
   },
-});
+})
 const address = computed({
   get() {
-    return server.value.address;
+    return server.value.address
   },
   set(val) {
-    server.value.address = val;
-    onServerUpdate();
+    server.value.address = val
+    onServerUpdate()
   },
-});
+})
 const port = computed({
   get() {
-    return server.value.port;
+    return server.value.port
   },
   set(val) {
-    server.value.port = val;
-    onServerUpdate();
+    server.value.port = val
+    onServerUpdate()
   },
-});
+})
 const d = debounce(
   () => {
-    serverStore.saveServer({ server: server.value, index: props.index });
+    serverStore.saveServer({ server: server.value, index: props.index })
   },
   300,
   { isImmediate: false }
-);
+)
 const onServerUpdate = () => {
-  d();
-};
+  d()
+}
 </script>
